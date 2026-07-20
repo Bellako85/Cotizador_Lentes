@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_template_form_view_inherit_series_prices" model="ir.ui.view">
+        <name>product.template.form.inherit.series.prices</name>
+        <model>product.template</model>
+        <inherit_id ref="product.product_template_form_view"/>
+        <arch type="xml">
+            
+            <!-- Inyectamos el campo Tipo de Lente justo debajo del tipo de producto general -->
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="lens_type" widget="radio" options="{'horizontal': true}"/>
+            </xpath>
+
+            <!-- Agregamos una nueva pestaña en el formulario para gestionar los precios de las series -->
+            <xpath expr="//notebook" position="inside">
+                <page string="Precios por Serie" invisible="lens_type not in ['monofocal', 'bifocal', 'progresivo', 'blended']">
+                    <group string="Matriz de Costos por Graduación (Óptica Zamora)">
+                        <field name="serie_price_ids" nolabel="1">
+                            <tree editable="bottom">
+                                <field name="serie_key"/>
+                                <field name="price"/>
+                                <field name="currency_id" column_invisible="True"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+
+        </arch>
+    </record>
+</odoo>
