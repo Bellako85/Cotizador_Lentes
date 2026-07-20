@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cotizador_wizard_form" model="ir.ui.view">
+        <name>cotizador.wizard.form</name>
+        <model>cotizador.wizard</model>
+        <arch type="xml">
+            <form string="Cotizador de Lentes por Medios Pares">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="1" force_save="1"/>
+                            <field name="graduacion_id" readonly="1" force_save="1"/>
+                        </group>
+                        <group>
+                            <field name="serie_od" readonly="1" force_save="1" string="Serie Ojo Derecho"/>
+                            <field name="serie_oi" readonly="1" force_save="1" string="Serie Ojo Izquierdo"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Micas / Tratamientos a Cotizar">
+                            <field name="line_ids">
+                                <tree editable="bottom">
+                                    <field name="ojo"/>
+                                    <field name="product_id" domain="[('sale_ok', '=', True)]"/>
+                                    <field name="qty"/>
+                                    <field name="price"/>
+                                    <field name="currency_id" column_invisible="True"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button name="action_create_quotation" string="Generar Presupuesto" type="object" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </arch>
+    </record>
+</odoo>
