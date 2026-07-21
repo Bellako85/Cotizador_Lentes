@@ -14,7 +14,7 @@ class OpticaGraduacion(models.Model):
             'view_mode': 'form',
             'target': 'new',
             'context': {
-                'default_partner_id': self.patient_id.id if hasattr(self, 'patient_id') else False,
+                'default_partner_id': self.paciente_id.id if hasattr(self, 'paciente_id') else False,
                 'default_graduacion_id': self.id,
                 'default_serie_od': self.serie_recomendada_od,
                 'default_serie_oi': self.serie_recomendada_oi,
