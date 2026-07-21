@@ -61,12 +61,18 @@ class CotizadorWizardLine(models.TransientModel):
     def get_ojo_label(self):
         return dict(self._fields['ojo'].selection).get(self.ojo)
 
-    @api.onchange('product_id', 'ojo')
+   @api.onchange('product_id', 'ojo')
     def _onchange_product_or_ojo(self):
         """ Calcula el precio unitario dependiendo del ojo seleccionado y su serie """
         if not self.product_id:
             return
 
+        # Asignamos precio por defecto primero por seguridad
+        self.price = self.product_id.lst_price
+
+        # Si no hay wizard vinculado todavía, no podemos buscar series, salimos seguros
+        if not self.wizard_id:
+            return
 
         serie_a_buscar = False
         if self.ojo == 'od':
@@ -76,14 +82,14 @@ class CotizadorWizardLine(models.TransientModel):
             serie_a_buscar = self.wizard_id.serie_oi
             self.qty = 1.0
         elif self.ojo == 'ambos':
+            # Si son ambos ojos pero las series son distintas, usamos la del derecho por defecto
             serie_a_buscar = self.wizard_id.serie_od
             self.qty = 2.0
 
         if not serie_a_buscar:
-            self.price = self.product_id.lst_price
             return
 
-        
+        # Buscamos el precio mapeado en el modelo que corregimos hace un momento
         serie_price = self.env['optica.product.serie.price'].search([
             ('product_tmpl_id', '=', self.product_id.product_tmpl_id.id),
             ('serie_key', '=', serie_a_buscar)
@@ -91,5 +97,3 @@ class CotizadorWizardLine(models.TransientModel):
 
         if serie_price:
             self.price = serie_price.price
-        else:
-            self.price = self.product_id.lst_price
