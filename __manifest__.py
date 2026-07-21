@@ -5,7 +5,7 @@
     "category": "Custom/Optica",
     "author": "PeeWee"
     "license": "LGPL-3",
-    "depends": ["base", "product", "sale_management"],
+    "depends": ["base", "product", "sale_management", "odoo_graduacion_paciente"],
     "data": [
         "security/ir.model.access.csv",
         "views/product_template_inherit_views.xml",
