@@ -3,7 +3,7 @@
     "version": "17.0.1.0.0",
     "summary": "Series de micas, precios por serie y wizard de cotización basado en graduación",
     "category": "Custom/Optica",
-    "author": "PeeWee"
+    "author": "PeeWee",
     "license": "LGPL-3",
     "depends": ["base", "product", "sale_management", "odoo_graduacion_paciente"],
     "data": [
